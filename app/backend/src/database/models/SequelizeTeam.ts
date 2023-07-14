@@ -6,14 +6,14 @@ import {
   CreationOptional,
 } from 'sequelize';
 import db from '.';
-  
+
 class SequelizeTeam extends Model<InferAttributes<SequelizeTeam>,
 InferCreationAttributes<SequelizeTeam>> {
   declare id: CreationOptional<number>;
 
-  declare team_name: string;
+  declare teamName: string;
 }
-  
+
 SequelizeTeam.init({
   id: {
     type: DataTypes.INTEGER,
@@ -21,14 +21,16 @@ SequelizeTeam.init({
     primaryKey: true,
     autoIncrement: true,
   },
-  team_name: {
+  teamName: {
     type: DataTypes.STRING(30),
     allowNull: false,
-  }
+  },
 }, {
   sequelize: db,
-  modelName: 'trybeEval',
+  modelName: 'Team',
+  tableName: 'teams',
   timestamps: false,
+  underscored: true,
 });
 
 export default SequelizeTeam;
