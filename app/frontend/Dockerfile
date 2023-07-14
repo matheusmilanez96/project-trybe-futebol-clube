@@ -1,3 +1,18 @@
+FROM node:16.14-alpine
+
+WORKDIR /app-frontend
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
+ENTRYPOINT ["npm", "run"]
+
+CMD ["dev"]
+
 # Usar a imagem node:16.14-alpine como base
 
 # Mudar para o diretório de trabalho /app-frontend
