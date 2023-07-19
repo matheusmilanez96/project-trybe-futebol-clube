@@ -1,4 +1,5 @@
 import bcrypt = require('bcryptjs');
+import { Role } from '../types/Role';
 import jwtUtil from '../utils/jwt.util';
 import { ServiceResponse } from '../Interfaces/ServiceResponse';
 import UserModel from '../models/UserModel';
@@ -22,5 +23,16 @@ export default class AuthService {
     const token = jwtUtil.sign({ id, email });
 
     return { status: 'SUCCESSFUL', data: { token } };
+  }
+
+  public async getRoleByEmail(email: string): Promise<ServiceResponse<Role>> {
+    const foundUser = await this.userModel.findOne(email);
+
+    if (!foundUser) {
+      return { status: 'UNAUTHORIZED', data: { message: 'Token must be a valid token' } };
+    }
+    const { role } = foundUser;
+
+    return { status: 'SUCCESSFUL', data: { role } };
   }
 }

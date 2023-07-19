@@ -7,6 +7,7 @@ import chaiHttp = require('chai-http');
 import { App } from '../app';
 import SequelizeUser from '../database/models/SequelizeUser';
 import { ILogin } from '../Interfaces/users/IUser';
+import { Token } from '../types/Token';
 chai.use(chaiHttp);
 
 const { app } = new App();
@@ -15,6 +16,7 @@ const { expect } = chai;
 
 describe('Login Test', function() {
   const prefix = '/login';
+  const prefix2 = '/login/data';
 
   describe('Successful request', function() {
     it('deve fazer login quando credenciais forem válidas', async function() {
