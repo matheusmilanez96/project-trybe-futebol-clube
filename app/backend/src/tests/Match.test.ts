@@ -9,6 +9,7 @@ import chaiHttp = require('chai-http');
 import { App } from '../app';
 import SequelizeMatch from '../database/models/SequelizeMatch';
 import { matches, inProgressMatches, finishedMatches } from './mocks/Match.mocks';
+import Validations from '../middlewares/Validations';
 
 chai.use(chaiHttp);
 

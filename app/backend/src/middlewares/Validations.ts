@@ -26,7 +26,6 @@ class Validations {
       }
       const data = authorization.split(' ');
       const token = data[data.length - 1];
-      console.log(token);
       const payload = jwtUtil.verify(token);
       res.locals.user = payload;
       next();

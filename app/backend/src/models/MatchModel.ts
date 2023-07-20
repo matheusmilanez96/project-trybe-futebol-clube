@@ -26,4 +26,11 @@ export default class MatchModel implements IMatchModel {
     });
     return dbData;
   }
+
+  async finishMatch(id: IMatch['id']): Promise<boolean | null> {
+    const match = await this.model.findByPk(id);
+    if (match == null) return null;
+    await match.update({ inProgress: false });
+    return true;
+  }
 }
