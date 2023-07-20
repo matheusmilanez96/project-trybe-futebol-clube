@@ -8,7 +8,7 @@ import chaiHttp = require('chai-http');
 
 import { App } from '../app';
 import SequelizeMatch from '../database/models/SequelizeMatch';
-import { matches } from './mocks/Match.mocks';
+import { matches, inProgressMatches, finishedMatches } from './mocks/Match.mocks';
 
 chai.use(chaiHttp);
 
@@ -24,6 +24,24 @@ describe('Matches Test', function() {
 
     expect(status).to.equal(200);
     expect(body).to.deep.equal(matches);
+  });
+
+  it('should return all in progress matches', async function() {
+    sinon.stub(SequelizeMatch, 'findAll').resolves(inProgressMatches as any);
+
+    const { status, body } = await chai.request(app).get('/matches?inProgress=true');
+
+    expect(status).to.equal(200);
+    expect(body).to.deep.equal(inProgressMatches);
+  });
+
+  it('should return all finished matches', async function() {
+    sinon.stub(SequelizeMatch, 'findAll').resolves(finishedMatches as any);
+
+    const { status, body } = await chai.request(app).get('/matches?inProgress=false');
+
+    expect(status).to.equal(200);
+    expect(body).to.deep.equal(finishedMatches);
   });
 
   afterEach(sinon.restore);
