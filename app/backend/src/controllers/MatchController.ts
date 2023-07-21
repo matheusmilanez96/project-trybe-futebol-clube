@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import MatchService from '../services/MatchService';
+import mapStatusHTTP from '../utils/mapStatusHTTP';
 
 export default class MatchController {
   constructor(
@@ -29,5 +30,13 @@ export default class MatchController {
     const serviceResponse = await this.matchService
       .updateMatch(Number(homeTeamGoals), Number(awayTeamGoals), Number(id));
     res.status(200).json(serviceResponse.data);
+  }
+
+  public async addNewMatch(req: Request, res: Response) {
+    const serviceResponse = await this.matchService.addNewMatch(req.body);
+    if (serviceResponse.status !== 'CREATED') {
+      return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
+    }
+    res.status(201).json(serviceResponse.data);
   }
 }
