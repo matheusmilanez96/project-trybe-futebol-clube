@@ -33,4 +33,15 @@ export default class MatchModel implements IMatchModel {
     await match.update({ inProgress: false });
     return true;
   }
+
+  async updateMatch(
+    homeTeamGoals: IMatch['homeTeamGoals'],
+    awayTeamGoals: IMatch['awayTeamGoals'],
+    id: IMatch['id'],
+  ): Promise<boolean | null> {
+    const match = await this.model.findByPk(id);
+    if (match == null) return null;
+    await match.update({ homeTeamGoals, awayTeamGoals });
+    return true;
+  }
 }

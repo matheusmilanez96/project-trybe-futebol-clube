@@ -20,11 +20,20 @@ export default class MatchService {
   }
 
   public async finishMatch(id: number): Promise<ServiceResponse<Message>> {
-    console.log(id);
     const modelResponse = await this.matchModel.finishMatch(id);
     if (!modelResponse) {
       return { status: 'NOT_FOUND', data: { message: `Match ${id} not found` } };
     }
     return { status: 'SUCCESSFUL', data: { message: 'Finished' } };
+  }
+
+  public async updateMatch(homeTeamGoals: number, awayTeamGoals: number, id: number):
+  Promise<ServiceResponse<Message>> {
+    console.log(homeTeamGoals, awayTeamGoals);
+    const modelResponse = await this.matchModel.updateMatch(homeTeamGoals, awayTeamGoals, id);
+    if (!modelResponse) {
+      return { status: 'NOT_FOUND', data: { message: `Match ${id} not found` } };
+    }
+    return { status: 'SUCCESSFUL', data: { message: 'Match updated' } };
   }
 }
