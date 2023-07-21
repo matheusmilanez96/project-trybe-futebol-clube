@@ -6,6 +6,7 @@ import MatchModel from '../models/MatchModel';
 import { Message } from '../types/Message';
 import { ITeamModel } from '../Interfaces/teams/ITeamModel';
 import TeamModel from '../models/TeamModel';
+import NewMatch from '../Interfaces/matches/NewMatch';
 
 export default class MatchService {
   constructor(
@@ -42,7 +43,7 @@ export default class MatchService {
   }
 
   public async addNewMatch(match: NewEntity<IMatch>): Promise<ServiceResponse<IMatch>> {
-    const { homeTeamId, awayTeamId } = match;
+    const { homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals } = match;
     if (homeTeamId === awayTeamId) {
       return { status: 'UNPROCESSABLE CONTENT',
         data: { message: 'It is not possible to create a match with two equal teams' } };
@@ -52,7 +53,13 @@ export default class MatchService {
     if (!homeTeam || !awayTeam) {
       return { status: 'NOT_FOUND', data: { message: 'There is no team with such id!' } };
     }
-    const modelResponse = await this.matchModel.addNewMatch(match);
+    const newMatch: NewMatch = { homeTeamId,
+      awayTeamId,
+      homeTeamGoals,
+      awayTeamGoals,
+      inProgress: true,
+    };
+    const modelResponse = await this.matchModel.addNewMatch(newMatch);
 
     return { status: 'CREATED', data: modelResponse };
   }
